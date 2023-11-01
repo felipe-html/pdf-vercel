@@ -45,7 +45,10 @@ export default async function handler(
           fourOrMoreChildren: "3.5%",
         };
 
-        const filePath = path.join("", "generate-pdf/models/model.ejs");
+        const filePath = path.join(
+          "https://pdf-microservice.vercel.app/api/",
+          "generate-pdf/models/model.ejs"
+        );
 
         ejs.renderFile(filePath, { fileConfigs }, async (error, html) => {
           if (error) {

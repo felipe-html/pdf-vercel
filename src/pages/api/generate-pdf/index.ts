@@ -31,50 +31,54 @@ export default async function handler(
 ) {
   switch (req.method) {
     case "GET":
-      try {
-        await runMiddleware(req, res, cors);
+      // try {
+      await runMiddleware(req, res, cors);
 
-        const browser = await puppeteer.launch({ headless: "new" });
-        const page = await browser.newPage();
+      const browser = await puppeteer.launch({ headless: "new" });
+      console.log({ browser });
+      const page = await browser.newPage();
+      console.log({ page });
 
-        const fileConfigs = {
-          noChildren: "30%",
-          oneChildren: "10%",
-          twoChildren: "50%",
-          threeChildren: "8%",
-          fourOrMoreChildren: "3.5%",
-        };
+      const fileConfigs = {
+        noChildren: "30%",
+        oneChildren: "10%",
+        twoChildren: "50%",
+        threeChildren: "8%",
+        fourOrMoreChildren: "3.5%",
+      };
 
-        const filePath = path.join(
-          "https://pdf-microservice.vercel.app/api/",
-          "generate-pdf/models/model.ejs"
-        );
+      const filePath = path.join(
+        "https://pdf-microservice.vercel.app/api/",
+        "generate-pdf/models/model.ejs"
+      );
 
-        ejs.renderFile(filePath, { fileConfigs }, async (error, html) => {
-          if (error) {
-            return res.status(500).json({
-              message: "There was an error generating the ejs file",
-              timeStamp: new Date(),
-              error,
-            });
-          }
-
-          await page.setContent(html);
-          const pdf = await page.pdf({
-            printBackground: true,
-            height: "828px",
-            width: "1280px",
+      ejs.renderFile(filePath, { fileConfigs }, async (error, html) => {
+        if (error) {
+          console.log({ error });
+          return res.status(500).json({
+            message: "There was an error generating the ejs file",
+            timeStamp: new Date(),
+            error,
           });
+        }
+        console.log({ html });
 
-          await browser.close();
-          return res.status(200).json({ pdf });
+        await page.setContent(html);
+        const pdf = await page.pdf({
+          printBackground: true,
+          height: "828px",
+          width: "1280px",
         });
-      } catch (error) {
-        return res.status(500).json({
-          message: "There was an error generating the ejs file",
-          error,
-        });
-      }
+
+        await browser.close();
+        return res.status(200).json({ pdf });
+      });
+    // } catch (error) {
+    //   return res.status(500).json({
+    //     message: "There was an error generating the ejs file",
+    //     error,
+    //   });
+    // }
   }
 }
 

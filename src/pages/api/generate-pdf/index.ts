@@ -2,8 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import ejs from "ejs";
 import path from "path";
-import puppeteer from "puppeteer";
 import Cors from "cors";
+import puppeteerCore from "puppeteer-core";
+import puppeteer from "puppeteer";
+import chrome from "chrome-aws-lambda";
 
 const cors = Cors({
   methods: ["POST", "GET", "HEAD"],
@@ -31,6 +33,15 @@ export default async function handler(
 ) {
   switch (req.method) {
     case "GET":
+      let puppeteerInstance;
+
+      if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+        puppeteerInstance = puppeteerCore;
+      } else {
+        puppeteerInstance = puppeteer;
+      }
+
+      return res.json({ message: "Deu bom" });
       // try {
       await runMiddleware(req, res, cors);
 

@@ -60,9 +60,9 @@ export default async function handler(
         const page = await browser.newPage();
         await page.goto("https://www.google.com");
         const title = await page.title();
-        return res.send({ title });
+        return res.send({ page, title, message: "Deu bom" });
       } catch (error) {
-        return res.send(error);
+        return res.send({ message: "Deu erro", error });
       }
 
       // try {

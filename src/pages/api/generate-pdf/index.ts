@@ -59,7 +59,8 @@ export default async function handler(
         const browser = await puppeteer.launch(options);
         const page = await browser.newPage();
         await page.goto("https://www.google.com");
-        return res.send(await page.title());
+        const title = await page.title();
+        return res.send({ title });
       } catch (error) {
         return res.send(error);
       }

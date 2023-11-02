@@ -46,15 +46,16 @@ export default async function handler(
       let options = {};
 
       if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-        options = {
-          args: [...chrome.args, "--hide-scrollbars", "disable-web-security"],
-          defaultViewport: chrome.defaultViewport,
-          executablePath: await chrome.executablePath,
-          headless: "new",
-          ignoreHTTPSErrors: true,
-        };
+        // options = {
+        //   args: [...chrome.args, "--hide-scrollbars", "disable-web-security"],
+        //   defaultViewport: chrome.defaultViewport,
+        //   executablePath: await chrome.executablePath,
+        //   headless: "new",
+        //   ignoreHTTPSErrors: true,
+        // };
       }
 
+      console.log(process.env.AWS_LAMBDA_FUNCTION_VERSION);
       const browser = await puppeteer.launch(options);
       const page = await browser.newPage();
       await page.goto("https://www.google.com");

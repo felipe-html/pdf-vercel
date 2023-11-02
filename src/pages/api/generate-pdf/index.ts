@@ -56,7 +56,7 @@ export default async function handler(
       }
 
       console.log(process.env.AWS_LAMBDA_FUNCTION_VERSION);
-      const browser = await puppeteer.launch(options);
+      const browser = await puppeteerInstance.launch(options);
       const page = await browser.newPage();
       await page.goto("https://www.google.com");
       const title = await page.title();

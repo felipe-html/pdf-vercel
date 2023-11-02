@@ -35,28 +35,31 @@ export default async function handler(
     case "GET":
       await runMiddleware(req, res, cors);
 
-      let puppeteerInstance;
+      // let puppeteerInstance;
 
-      if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-        puppeteerInstance = puppeteerCore;
-      } else {
-        puppeteerInstance = puppeteer;
-      }
+      // if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+      //   puppeteerInstance = puppeteerCore;
+      // } else {
+      //   puppeteerInstance = puppeteer;
+      // }
 
-      let options = {};
+      // let options = {};
 
-      if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-        options = {
-          args: [...chrome.args, "--hide-scrollbars", "disable-web-security"],
-          defaultViewport: chrome.defaultViewport,
-          executablePath: await chrome.executablePath,
-          headless: "new",
-          ignoreHTTPSErrors: true,
-        };
-      }
+      // if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+      //   options = {
+      //     args: [...chrome.args, "--hide-scrollbars", "disable-web-security"],
+      //     defaultViewport: chrome.defaultViewport,
+      //     executablePath: await chrome.executablePath,
+      //     headless: "new",
+      //     ignoreHTTPSErrors: true,
+      //   };
+      // }
 
       console.log(process.env.AWS_LAMBDA_FUNCTION_VERSION);
-      const browser = await puppeteerInstance.launch(options);
+      // const browser = await puppeteerInstance.launch(options);
+      const browser = await puppeteerCore.connect({
+        browserWSEndpoint: `wss://chrome.browserless.io?token=f272abaa-3b6b-4bf9-892b-124435c90e78`,
+      });
       const page = await browser.newPage();
       await page.goto("https://www.google.com");
       const title = await page.title();

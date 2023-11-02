@@ -60,10 +60,11 @@ export default async function handler(
       const browser = await puppeteerCore.connect({
         browserWSEndpoint: `wss://chrome.browserless.io?token=f272abaa-3b6b-4bf9-892b-124435c90e78`,
       });
-      const page = await browser.newPage();
-      await page.goto("https://www.google.com");
-      const title = await page.title();
-      return res.send({ page, title, message: "Deu bom" });
+      return res.send(browser);
+    // const page = await browser.newPage();
+    // await page.goto("https://www.google.com");
+    // const title = await page.title();
+    // return res.send({ page, title, message: "Deu bom" });
   }
 }
 

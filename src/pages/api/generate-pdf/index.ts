@@ -55,57 +55,57 @@ export default async function handler(
         };
       }
 
-      try {
-        const browser = await puppeteer.launch(options);
-        const page = await browser.newPage();
-        await page.goto("https://www.google.com");
-        const title = await page.title();
-        return res.send({ page, title, message: "Deu bom" });
-      } catch (error) {
-        return res.send({ message: "Deu erro", error });
-      }
-
       // try {
-
-      const browser = await puppeteer.launch({ headless: "new" });
-      console.log({ browser });
+      const browser = await puppeteer.launch(options);
       const page = await browser.newPage();
-      console.log({ page });
+      await page.goto("https://www.google.com");
+      const title = await page.title();
+      return res.send({ page, title, message: "Deu bom" });
+    // } catch (error) {
+    //   return res.send({ message: "Deu erro", error });
+    // }
 
-      const fileConfigs = {
-        noChildren: "30%",
-        oneChildren: "10%",
-        twoChildren: "50%",
-        threeChildren: "8%",
-        fourOrMoreChildren: "3.5%",
-      };
+    // try {
 
-      const filePath = path.join(
-        "https://pdf-microservice.vercel.app/api/",
-        "generate-pdf/models/model.ejs"
-      );
+    // const browser = await puppeteer.launch({ headless: "new" });
+    // console.log({ browser });
+    // const page = await browser.newPage();
+    // console.log({ page });
 
-      ejs.renderFile(filePath, { fileConfigs }, async (error, html) => {
-        if (error) {
-          console.log({ error });
-          return res.status(500).json({
-            message: "There was an error generating the ejs file",
-            timeStamp: new Date(),
-            error,
-          });
-        }
-        console.log({ html });
+    // const fileConfigs = {
+    //   noChildren: "30%",
+    //   oneChildren: "10%",
+    //   twoChildren: "50%",
+    //   threeChildren: "8%",
+    //   fourOrMoreChildren: "3.5%",
+    // };
 
-        await page.setContent(html);
-        const pdf = await page.pdf({
-          printBackground: true,
-          height: "828px",
-          width: "1280px",
-        });
+    // const filePath = path.join(
+    //   "https://pdf-microservice.vercel.app/api/",
+    //   "generate-pdf/models/model.ejs"
+    // );
 
-        await browser.close();
-        return res.status(200).json({ pdf });
-      });
+    // ejs.renderFile(filePath, { fileConfigs }, async (error, html) => {
+    //   if (error) {
+    //     console.log({ error });
+    //     return res.status(500).json({
+    //       message: "There was an error generating the ejs file",
+    //       timeStamp: new Date(),
+    //       error,
+    //     });
+    //   }
+    //   console.log({ html });
+
+    //   await page.setContent(html);
+    //   const pdf = await page.pdf({
+    //     printBackground: true,
+    //     height: "828px",
+    //     width: "1280px",
+    //   });
+
+    //   await browser.close();
+    //   return res.status(200).json({ pdf });
+    // });
     // } catch (error) {
     //   return res.status(500).json({
     //     message: "There was an error generating the ejs file",

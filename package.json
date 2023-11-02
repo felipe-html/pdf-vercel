@@ -14,7 +14,7 @@
     "cors": "^2.8.5",
     "ejs": "^3.1.9",
     "next": "14.0.1",
-    "puppeteer-core": "^21.4.1",
+    "puppeteer-core": "^10.1.0",
     "react": "^18",
     "react-dom": "^18"
   },

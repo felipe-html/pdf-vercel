@@ -33,6 +33,8 @@ export default async function handler(
 ) {
   switch (req.method) {
     case "GET":
+      await runMiddleware(req, res, cors);
+
       let puppeteerInstance;
 
       if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
@@ -43,7 +45,6 @@ export default async function handler(
 
       return res.json({ message: "Deu bom" });
       // try {
-      await runMiddleware(req, res, cors);
 
       const browser = await puppeteer.launch({ headless: "new" });
       console.log({ browser });
